@@ -185,19 +185,11 @@ body::before {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center; /* MODIFIED: Ensures card is centered vertically */
     align-items: center;
     text-align: center;
-    padding: 40px 5%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-.screen-content::-webkit-scrollbar {
-    display: none;
+    padding: 24px 5%; /* MODIFIED: Adjusted padding for more content room */
+    overflow: hidden; /* MODIFIED: This container no longer scrolls itself */
 }
 
 .content-card {
@@ -214,7 +206,10 @@ body::before {
     overflow: hidden;
     max-width: 400px;
     width: 100%;
-    margin: auto 0;
+    margin: 0; /* MODIFIED: Replaced 'auto 0' for flexbox centering */
+    display: flex; /* ADDED: Makes the card a flex container */
+    flex-direction: column; /* ADDED: Stacks card content vertically */
+    max-height: 100%; /* ADDED: Prevents card from being taller than the screen area */
 }
 
 .content-card::before {
@@ -240,6 +235,7 @@ body::before {
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 122, 255, 0.4);
     overflow: hidden;
+    flex-shrink: 0; /* ADDED: Prevents icon from shrinking */
 }
 
 .icon::before {
@@ -272,6 +268,7 @@ h1 {
     line-height: 1.2;
     letter-spacing: -0.02em;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    flex-shrink: 0; /* ADDED: Prevents title from shrinking */
 }
 
 p {
@@ -282,9 +279,45 @@ p {
     max-width: 300px;
     font-weight: 400;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0; /* ADDED: Prevents paragraph from shrinking */
+    margin-left: auto; /* Centers text since card is a flex container */
+    margin-right: auto; /* Centers text since card is a flex container */
 }
 
-/* Language Selection */
+/* Language Selection & Options Scrolling */
+.language-options,
+.options-container {
+    overflow-y: auto; /* ADDED: The key fix! Enables vertical scrolling */
+    flex-shrink: 1; /* ADDED: Allows this container to shrink to fit inside the card */
+    padding-right: 8px; /* ADDED: Prevents content from hiding under the scrollbar */
+    margin-right: -8px; /* ADDED: Compensates padding to keep content centered */
+}
+
+/* Scrollbar Styling */
+.language-options,
+.options-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) transparent;
+}
+
+.language-options::-webkit-scrollbar,
+.options-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.language-options::-webkit-scrollbar-track,
+.options-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.language-options::-webkit-scrollbar-thumb,
+.options-container::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 6px;
+    border: 3px solid transparent;
+}
+
+
 .language-options {
     display: flex;
     flex-direction: column;
@@ -311,6 +344,7 @@ p {
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
     color: rgba(255, 255, 255, 0.9);
+    flex-shrink: 0; /* ADDED: Prevents individual options from shrinking */
 }
 
 .language-option::before {
@@ -601,7 +635,7 @@ p {
     }
     
     .screen-content {
-        padding: 32px 4%;
+        padding: 24px 4%;
     }
     
     .navigation {
@@ -645,6 +679,7 @@ p {
     overflow: hidden;
     -webkit-tap-highlight-color: transparent;
     color: rgba(255, 255, 255, 0.9);
+    flex-shrink: 0; /* ADDED: Prevent individual options from shrinking */
 }
 
 .option-item::before {
@@ -716,6 +751,9 @@ p {
     flex-direction: column;
     gap: 32px;
     width: 100%;
+    overflow-y: auto; /* Allow this section to scroll if needed */
+    padding-right: 8px; /* Room for scrollbar */
+    margin-right: -8px; /* Compensate for padding */
 }
 
 .section h3 {
